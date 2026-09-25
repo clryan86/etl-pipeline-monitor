@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      OPS_DB: /app/data/ops.db
+      WAREHOUSE_DB: /app/data/warehouse.db
+    volumes:
+      - pipeline_data:/app/data
+volumes:
+  pipeline_data:

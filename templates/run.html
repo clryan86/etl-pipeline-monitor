@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block content %}
+<section class="hero compact"><p class="eyebrow">Pipeline run #{{run.id}}</p><h1>{{run.pipeline_name}}</h1><p class="lead">{{run.status}} • {{run.rows_in}} rows in • {{run.rows_out}} rows out • {{'%.1f'|format(run.duration_ms or 0)}} ms</p></section>
+<section class="panel"><h2>Task trace</h2>{% for t in run.tasks %}<div class="task"><div><strong>{{t.position+1}}. {{t.task_name}}</strong><p>{{t.task_type}} • {{t.rows_in}} → {{t.rows_out}} rows</p></div><b class="{{'ok' if t.status=='SUCCEEDED' else 'bad'}}">{{t.status}}</b></div>{% endfor %}</section>
+<section class="panel"><h2>Lineage</h2>{% for l in run.lineage %}<div class="row"><span>{{l.source_name}}</span><strong>→ {{l.target_name}}</strong><span>{{l.rows_written}} rows</span></div>{% else %}<p class="muted">No load lineage recorded.</p>{% endfor %}</section>
+{% if run.error %}<section class="panel badbox"><h2>Failure</h2><pre>{{run.error}}</pre></section>{% endif %}
+{% endblock %}
